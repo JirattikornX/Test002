@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>เว็บแชท</title>
+<style>
+  body { font-family: Arial; }
+  #messages { list-style: none; padding: 0; }
+  li { padding: 5px; }
+</style>
+</head>
+<body>
+
+<h2>💬 เว็บแชท</h2>
+<ul id="messages"></ul>
+
+<input id="msg" autocomplete="off">
+<button onclick="send()">ส่ง</button>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  const socket = io();
+
+  function send() {
+    const msg = document.getElementById('msg').value;
+    socket.emit('chat message', msg);
+    document.getElementById('msg').value = '';
+  }
+
+  socket.on('chat message', function(msg){
+    const li = document.createElement('li');
+    li.textContent = msg;
+    document.getElementById('messages').appendChild(li);
+  });
+</script>
+
+</body>
+</html>
